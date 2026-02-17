@@ -1,4 +1,4 @@
-package com.qow.msms4j;
+package com.qow.msm4jds;
 
 import com.qow.util.Property;
 import com.qow.util.qon.NoSuchKeyException;

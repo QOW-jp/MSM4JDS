@@ -1,4 +1,4 @@
-package com.qow.msms4j;
+package com.qow.msm4jds;
 
 import com.github.luben.zstd.ZstdOutputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
