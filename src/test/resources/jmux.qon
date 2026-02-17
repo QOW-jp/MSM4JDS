@@ -1,0 +1,18 @@
+#qon file 4 jmux config v1.4.0
+#Requirements qon4j v1.1.0 or later
+#Home path
+home-dir=/home/user/Desktop/minecraft/java/default
+#Server IP
+server-ip=localhost
+#Server port
+port=9999
+#Enable auto port
+auto-porting=true
+#Server port temp file path
+port-temp=$(home-dir)/jmux_port.temp
+#Enable bind IP
+bind-ip=true
+#Client IP (Only when bind-ip=true)
+client-ip=localhost
+#Protocol ID
+protocol-id=jmux@$(home-dir)
