@@ -29,10 +29,12 @@ public class MSM4JClientMain {
 
         MSM4JProperty msm4JProperty;
         try {
+            System.out.print("Loading MSM4J Property : ");
             msm4JProperty = new MSM4JProperty(new QONObject(new File(path)));
             msm4JProperty.parse();
+            System.out.println("Succeeded");
         } catch (UntrustedQONException | NoSuchKeyException | IOException | UntrustedPropertyException e) {
-            System.err.println("Not Available MSM4JProperty.");
+            System.out.println("Failed");
             System.err.println(e.getMessage());
             throw new RuntimeException(e);
         }
@@ -47,11 +49,13 @@ public class MSM4JClientMain {
         CommandControllerClient ccc = new CommandControllerClient(host, msm4jPort, protocolID, byteSize);
 
         try {
-            System.out.print(message + " : ");
+            System.out.print("CommandControllerClient send [" + message + "] : ");
             boolean success = ccc.command(message);
             System.out.println(success);
         } catch (ClosedServerException e) {
+            System.out.println("Failed");
             if (message.equals("BACKUP")) {
+                System.out.println("Start Force Backup Mode");
                 try {
                     QONObject qonObject = new QONObject(new File(path));
                     MSM4JProperty property = new MSM4JProperty(qonObject);
@@ -63,17 +67,21 @@ public class MSM4JClientMain {
                     PrivateRule rule = new PrivateRule(backupProperty);
                     MinecraftServerManager4J msManager = new MinecraftServerManager4J(property, rule);
 
-                    System.out.println("backup now");
+                    System.out.print("Backup now : ");
                     rule.backup();
-                    System.out.println("success");
+                    System.out.println("Succeeded");
                 } catch (Exception ex) {
+                    System.out.println("Failed");
                     System.err.println(ex.getMessage());
-                    System.exit(5);
+                    throw new RuntimeException(e);
                 }
             } else {
+                System.err.println(e.getMessage());
                 throw new RuntimeException(e);
             }
         } catch (UntrustedConnectException e) {
+            System.out.println("Failed");
+            System.err.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
