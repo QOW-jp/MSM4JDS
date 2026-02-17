@@ -19,9 +19,9 @@ import java.util.Arrays;
 
 import static com.qow.jmux.Command.values;
 
-public class JMUXClientMain {
+public class JMUXCommand {
     public static void main(String[] args) {
-        System.out.println("JMUX");
+        System.out.println("JMUXCommand");
         int length = 4;
         if (args.length != length) {
             System.err.println("[jmux.qon] [msm4j.qon] [command] [tokenID]");
@@ -140,7 +140,7 @@ public class JMUXClientMain {
                 }
             }
         } finally {
-            System.out.println("exit JMUXClientMain");
+            System.out.println("exit JMUXCommand");
         }
     }
 }

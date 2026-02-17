@@ -14,9 +14,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-public class MSM4JClientMain {
+public class MSM4JCommand {
     public static void main(String[] args) {
-        System.out.println("MSM4J");
+        System.out.println("MSM4JCommand");
         int length = 2;
         if (args.length != length) {
             System.err.println("args.length is not " + length);

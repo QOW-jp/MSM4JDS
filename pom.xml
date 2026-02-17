@@ -66,11 +66,11 @@
                         </goals>
                         <configuration>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <shadedClassifierName>JMUXClient</shadedClassifierName>
+                            <shadedClassifierName>JMUXCommand</shadedClassifierName>
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.qow.msm4jmux.JMUXClientMain</mainClass>
+                                    <mainClass>com.qow.msm4jmux.JMUXCommand</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -83,11 +83,11 @@
                         </goals>
                         <configuration>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <shadedClassifierName>MSM4JClient</shadedClassifierName>
+                            <shadedClassifierName>MSM4JCommand</shadedClassifierName>
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.qow.msm4jmux.MSM4JClientMain</mainClass>
+                                    <mainClass>com.qow.msm4jmux.MSM4JCommand</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
