@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class MSMToken extends Token {
     private final String qonPath;
-    private MinecraftServerManager4J msManager;
+    private MinecraftSM4J msManager;
 
     public MSMToken(int tokenID, String qonPath) {
         super(tokenID);
@@ -47,7 +47,7 @@ public class MSMToken extends Token {
         try {
             CommandRule rule = new PrivateRule(backupProperty);
 
-            msManager = new MinecraftServerManager4J(msm4JProperty, rule);
+            msManager = new MinecraftSM4J(msm4JProperty, rule);
             Runtime.getRuntime().addShutdownHook(new Thread(msManager::killProcess));
 
             CommandControllerServer ccs = msManager.getCommandControllerServer();

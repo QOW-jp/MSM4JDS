@@ -2,7 +2,7 @@ package com.qow.msm4jds;
 
 import com.qow.minecraft.server.CommandControllerClient;
 import com.qow.minecraft.server.MSM4JProperty;
-import com.qow.minecraft.server.MinecraftServerManager4J;
+import com.qow.minecraft.server.MinecraftSM4J;
 import com.qow.net.ClosedServerException;
 import com.qow.net.UntrustedConnectException;
 import com.qow.util.UntrustedPropertyException;
@@ -12,6 +12,7 @@ import com.qow.util.qon.UntrustedQONException;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 
 public class MSM4JCommand {
@@ -65,7 +66,7 @@ public class MSM4JCommand {
                     backupProperty.parse();
 
                     PrivateRule rule = new PrivateRule(backupProperty);
-                    MinecraftServerManager4J msManager = new MinecraftServerManager4J(property, rule);
+                    MinecraftSM4J msManager = new MinecraftSM4J(property, rule);
 
                     System.out.print("Backup now : ");
                     rule.backup();
@@ -79,7 +80,7 @@ public class MSM4JCommand {
                 System.err.println(e.getMessage());
                 throw new RuntimeException(e);
             }
-        } catch (UntrustedConnectException e) {
+        } catch (UntrustedConnectException | SocketTimeoutException e) {
             System.out.println("Failed");
             System.err.println(e.getMessage());
             throw new RuntimeException(e);

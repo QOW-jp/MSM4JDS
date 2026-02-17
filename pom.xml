@@ -6,7 +6,7 @@
 
     <groupId>com.qow.msms4j</groupId>
     <artifactId>MSM4JDS</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <properties>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
@@ -17,12 +17,12 @@
         <dependency>
             <groupId>com.qow</groupId>
             <artifactId>jmux</artifactId>
-            <version>1.4.6</version>
+            <version>1.4.7</version>
         </dependency>
         <dependency>
             <groupId>com.qow</groupId>
             <artifactId>msm4j</artifactId>
-            <version>1.7.10</version>
+            <version>1.8.0</version>
         </dependency>
         <dependency>
             <groupId>com.qow</groupId>
@@ -33,11 +33,6 @@
             <groupId>com.qow</groupId>
             <artifactId>util</artifactId>
             <version>1.0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.qow</groupId>
-            <artifactId>qtcp</artifactId>
-            <version>1.2.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.luben</groupId>

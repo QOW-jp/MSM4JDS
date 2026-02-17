@@ -12,6 +12,7 @@ import com.qow.util.qon.QONObject;
 import com.qow.util.qon.UntrustedQONException;
 
 import java.io.*;
+import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -84,7 +85,7 @@ public class JMUXCommand {
                 CommandControllerClient ccc = new CommandControllerClient(host, msm4jPort, protocolID4msm4j, byteSize);
 
                 if (msm4jPort == 0) throw new ClosedServerException("no server.");
-                System.out.print("CommandControllerClient send [START]: ");
+                System.out.print("CommandControllerClient send [START] : ");
                 System.out.println(ccc.command("START"));   //ClosedServerException UntrustedConnectException
             }
         } catch (UntrustedConnectException e) {
@@ -139,6 +140,10 @@ public class JMUXCommand {
                     throw new RuntimeException(ex);
                 }
             }
+        } catch (SocketTimeoutException e) {
+            System.out.println("Failed");
+            System.err.println(e.getMessage());
+            throw new RuntimeException(e);
         } finally {
             System.out.println("exit JMUXCommand");
         }
