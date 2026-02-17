@@ -32,18 +32,33 @@ public class JMUXClientMain {
         Command command = Command.valueOf(args[2]);
         int tokenID = Integer.parseInt(args[3]);
 
-        System.out.println(Arrays.toString(values()));
+        System.out.println("JMUX Commands = " + Arrays.toString(values()));
 
         MSM4JProperty msm4JProperty;
+        JMUXProperty jmuxProperty;
+
         try {
+            System.out.print("Loading MSM4J Property : ");
             msm4JProperty = new MSM4JProperty(new QONObject(new File(msm4jPath)));
             msm4JProperty.parse();
+            System.out.println("Succeeded");
         } catch (IOException | UntrustedQONException | NoSuchKeyException | UntrustedPropertyException e) {
+            System.out.println("Failed");
             System.err.println("Not Available MSM4JProperty.");
             System.err.println(e.getMessage());
             throw new RuntimeException(e);
         }
-        JMUXProperty jmuxProperty = JMUXProperty.getProperty(jmuxPath);
+        try {
+            System.out.print("Loading JMUX Property : ");
+            jmuxProperty = new JMUXProperty(new QONObject(new File(jmuxPath)));
+            jmuxProperty.parse();
+            System.out.println("Succeeded");
+        } catch (IOException | UntrustedQONException | NoSuchKeyException | UntrustedPropertyException e) {
+            System.out.println("Failed");
+            System.err.println("Not Available JMUX Property.");
+            System.err.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
 
         String host = jmuxProperty.get("server-ip");
         byte[] protocolID4jmux = jmuxProperty.get("protocol-id").getBytes(StandardCharsets.UTF_8);
@@ -51,14 +66,15 @@ public class JMUXClientMain {
         int jmuxPort = PortGetter.get(jmuxProperty);
         boolean jmuxAutoPorting = Boolean.parseBoolean(jmuxProperty.get("auto-porting"));
 
+        System.out.println("Starting JMUX Client");
         JMUXClient jmuxClient = new JMUXClient(host, jmuxPort, protocolID4jmux);
 
         try {
-            System.out.print("send : ");
             if (jmuxAutoPorting && jmuxPort == 0) {
                 throw new ClosedServerException("Server is not activated.");
             }
-            boolean sendable = jmuxClient.send(command, tokenID);
+            System.out.print("JMUX send [" + command + "] : ");
+            boolean sendable = jmuxClient.send(command, tokenID);   //ClosedServerException UntrustedConnectException
             System.out.println(sendable);
             if (!sendable) {
                 int msm4jPort = PortGetter.get("control_", msm4JProperty);
@@ -67,21 +83,25 @@ public class JMUXClientMain {
                 int byteSize = Integer.parseInt(msm4JProperty.get("control_byte-size"));
                 CommandControllerClient ccc = new CommandControllerClient(host, msm4jPort, protocolID4msm4j, byteSize);
 
-                System.out.print("send : ");
                 if (msm4jPort == 0) throw new ClosedServerException("no server.");
-                System.out.println(ccc.command("START"));
+                System.out.print("CommandControllerClient send [START]: ");
+                System.out.println(ccc.command("START"));   //ClosedServerException UntrustedConnectException
             }
         } catch (UntrustedConnectException e) {
             System.err.println(e.getMessage());
             System.err.println("send protocol id. at: " + new String(e.getSendProtocolID(), StandardCharsets.UTF_8));
             System.err.println("receive protocol id. at: " + new String(e.getReceiveProtocolID(), StandardCharsets.UTF_8));
         } catch (ClosedServerException e) {
+            System.err.println("Server not open");
             if (command == Command.ENABLE) {
-                System.out.println("起動");
+                System.out.println("Starting JMUX Server");
                 boolean bindIp = Boolean.parseBoolean(jmuxProperty.get("bind-ip"));
                 if (jmuxAutoPorting) {
                     jmuxPort = 0;
                 }
+                System.out.println("JMUX auto porting : " + jmuxAutoPorting);
+                System.out.println("JMUX bind IP : " + bindIp);
+
                 ServerMSM sm;
                 try {
                     if (bindIp) {
@@ -96,8 +116,10 @@ public class JMUXClientMain {
                 try (sm) {
                     if (jmuxAutoPorting) {
                         int activatedPort = sm.getLocalPort();
+                        System.out.println("JMUX port : " + activatedPort);
                         File temp = new File(jmuxProperty.get("port-temp"));
                         Path parent = Path.of(temp.getParent());
+                        System.out.print("Create port-temp file : ");
                         Files.createDirectories(parent);
                         try (FileWriter fw = new FileWriter(temp)) {
                             try (PrintWriter pw = new PrintWriter(new BufferedWriter(fw))) {
@@ -106,9 +128,14 @@ public class JMUXClientMain {
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
                         }
+                        System.out.println("Succeeded");
                     }
+                    System.out.println("Open JMUX Server");
                     sm.start(msm4jPath);
+                    sm.waitForServer();
+                    System.out.println("Closed JMUX Server");
                 } catch (IOException ex) {
+                    System.out.println("Failed");
                     throw new RuntimeException(ex);
                 }
             }
