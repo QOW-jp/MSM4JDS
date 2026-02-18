@@ -6,7 +6,7 @@
 
     <groupId>com.qow.msms4j</groupId>
     <artifactId>MSM4JDS</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <properties>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
@@ -17,17 +17,17 @@
         <dependency>
             <groupId>com.qow</groupId>
             <artifactId>jmux</artifactId>
-            <version>1.4.7</version>
+            <version>1.4.8</version>
         </dependency>
         <dependency>
             <groupId>com.qow</groupId>
             <artifactId>msm4j</artifactId>
-            <version>1.8.0</version>
+            <version>1.8.1</version>
         </dependency>
         <dependency>
             <groupId>com.qow</groupId>
             <artifactId>qon4j</artifactId>
-            <version>1.3.1</version>
+            <version>1.3.2</version>
         </dependency>
         <dependency>
             <groupId>com.qow</groupId>
@@ -65,7 +65,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.qow.msm4jmux.JMUXCommand</mainClass>
+                                    <mainClass>com.qow.msm4jds.JMUXCommand</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -82,7 +82,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.qow.msm4jmux.MSM4JCommand</mainClass>
+                                    <mainClass>com.qow.msm4jds.MSM4JCommand</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
